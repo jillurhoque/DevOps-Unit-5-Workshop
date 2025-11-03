@@ -16,11 +16,11 @@ jobs:
 
       # Build C# code
       - name: Build C# code
-        run: dotnet build --configuration Release
+        run: dotnet build 
 
       # Run C# tests
       - name: Run C# tests
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet test 
 
       # Setup Node.js
       - name: Setup Node.js
