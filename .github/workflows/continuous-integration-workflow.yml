@@ -1,14 +1,49 @@
 name: Continuous Integration
-on: [push]                      # Will make the workflow run every time you push to any branch
+on: [push]
 
 jobs:
   build:
     name: Build and test
-    runs-on: ubuntu-latest      # Sets the build environment a machine with the latest Ubuntu installed
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4 # Adds a step to checkout the repository code
+      - uses: actions/checkout@v4
 
-    - name: Hello world       # Name of step
-      uses: actions/hello-world-javascript-action@v1.1 # Name of the action. This uses https://github.com/actions/hello-world-javascript-action
-      with:                                            # This section is needed if you need to pass arguments to the action
-        who-to-greet: 'Mona the Octocat'
+      # Setup .NET
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      # Build C# code
+      - name: Build C# code
+        run: dotnet build --configuration Release
+
+      # Run C# tests
+      - name: Run C# tests
+        run: dotnet test --no-build --verbosity normal
+
+      # Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Install Node.js dependencies
+      - name: Install Node.js dependencies
+        run: npm ci
+        working-directory: ./DotnetTemplate.Web
+
+      # Build TypeScript code
+      - name: Build TypeScript code
+        run: npm run build
+        working-directory: ./DotnetTemplate.Web
+
+      # Run linter on TypeScript code
+      - name: Run TypeScript linter
+        run: npm run lint
+        working-directory: ./DotnetTemplate.Web
+
+      # Run TypeScript tests
+      - name: Run TypeScript tests
+        run: npm test
+        working-directory: ./DotnetTemplate.Web
