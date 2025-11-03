@@ -1,3 +1,6 @@
+[![Continuous Integration](https://github.com/jillurhoque/DevOps-Unit-5-Workshop/actions/workflows/continuous-integration-workflow.yml/badge.svg)](https://github.com/jillurhoque/DevOps-Unit-5-Workshop/actions/workflows/continuous-integration-workflow.yml)
+
+
 # DevOps Unit 5 Workshop
 
 Welcome to the Unit 5 Workshop!
