@@ -69,9 +69,15 @@ jobs:
       - name: Slack Notification (Success)
         uses: act10ns/slack@v2
         with:
-          channel: '#alerts-corndel-gha'
-          status: ${{ job.status }}
-          steps: ${{ toJson(steps) }}
+          message: |
+            *Continuous Integration Workflow Summary*
+            *Overall status:* ${{ job.status }}
+            *dotnet job:* ${{ needs.dotnet.result }}
+            *typescript job:* ${{ needs.typescript.result }}
+            Triggered by: ${{ github.actor }} on branch *${{ github.ref_name }}*
+          # channel: '#alerts-corndel-gha'
+          # status: ${{ job.status }}
+          # steps: ${{ toJson(steps) }}
           # message: "CI Workflow completed with status: ${{ job.status }}"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
