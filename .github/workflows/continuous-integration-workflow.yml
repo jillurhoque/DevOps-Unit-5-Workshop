@@ -59,3 +59,18 @@ jobs:
       - name: Run TypeScript tests
         run: npm test
         working-directory: ./DotnetTemplate.Web
+
+  notify:
+    name: Slack Notification
+    runs-on: ubuntu-latest
+    needs: [dotnet, typescript]
+    if: always()
+    steps:
+      - name: Slack Notification (Success)
+        uses: act10ns/slack@v2
+        with:
+          channel: '#alerts-corndel-gha'
+          status: ${{ job.status }}
+          message: "CI Workflow completed with status: ${{ job.status }}"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
